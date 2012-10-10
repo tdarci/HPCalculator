@@ -63,26 +63,39 @@
 
 }
 
-- (IBAction)operationPressed:(UIButton *)sender {
-    if (self.userEntryInProgress) [self enterPressed];
-    double result = [self.brain performOperation:sender.currentTitle];
-    NSString *resultString = [NSString stringWithFormat:@"%g", result];
-    self.display.text = resultString;
+- (void)appendHistorySeparator {
     if ([self.historyTicker.text length] > 0)
     {
         self.historyTicker.text = [self.historyTicker.text stringByAppendingString:@" || "];
     }
-    self.historyTicker.text = [self.historyTicker.text stringByAppendingString:sender.currentTitle];
+}
+
+- (IBAction)operationPressed:(UIButton *)sender {
+    
+    if (self.userEntryInProgress) [self enterPressed];
+    
+    double result = [self.brain performOperation:sender.currentTitle];
+    NSString *resultString = [NSString stringWithFormat:@"%g", result];
+    self.display.text = resultString;
+    
+    [self appendHistorySeparator];
+    NSString *newHistory = [NSString stringWithFormat:@"%@ = %@", sender.currentTitle, resultString];
+    self.historyTicker.text = [self.historyTicker.text stringByAppendingString:newHistory];
+}
+
+- (IBAction)clearPressed {
+    
+    [self.brain clear];
+    self.display.text = @"0";
+    self.historyTicker.text = @"";
+    
 }
 
 - (IBAction)enterPressed {
     self.userEntryInProgress = NO;
     double newOperand = [self.display.text doubleValue];
     [self.brain pushOperand:newOperand];
-    if ([self.historyTicker.text length] > 0)
-    {
-        self.historyTicker.text = [self.historyTicker.text stringByAppendingString:@" || "];
-    }
+    [self appendHistorySeparator];
     self.historyTicker.text = [self.historyTicker.text stringByAppendingString:self.display.text];
 }
 

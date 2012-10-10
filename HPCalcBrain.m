@@ -59,6 +59,11 @@
     }
 }
 
+- (void) clear
+{
+    [self.operandStack removeAllObjects];
+}
+
 - (double) performOperation: (NSString *) operation {
     double result;
     if ([operation isEqualToString:@"+"]){
