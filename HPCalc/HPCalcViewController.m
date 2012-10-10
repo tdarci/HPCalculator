@@ -21,6 +21,7 @@
 @implementation HPCalcViewController
 
 @synthesize display = _display;
+@synthesize historyTicker = _historyTicker;
 @synthesize userEntryInProgress = _userEntryInProgress;
 @synthesize brain = _brain;
 
@@ -67,12 +68,22 @@
     double result = [self.brain performOperation:sender.currentTitle];
     NSString *resultString = [NSString stringWithFormat:@"%g", result];
     self.display.text = resultString;
+    if ([self.historyTicker.text length] > 0)
+    {
+        self.historyTicker.text = [self.historyTicker.text stringByAppendingString:@" || "];
+    }
+    self.historyTicker.text = [self.historyTicker.text stringByAppendingString:sender.currentTitle];
 }
 
 - (IBAction)enterPressed {
     self.userEntryInProgress = NO;
     double newOperand = [self.display.text doubleValue];
     [self.brain pushOperand:newOperand];
+    if ([self.historyTicker.text length] > 0)
+    {
+        self.historyTicker.text = [self.historyTicker.text stringByAppendingString:@" || "];
+    }
+    self.historyTicker.text = [self.historyTicker.text stringByAppendingString:self.display.text];
 }
 
 - (void)viewDidLoad
