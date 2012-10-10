@@ -24,6 +24,7 @@
 		E2A10D5D1624E2C000BC86A8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2A10D351624E2C000BC86A8 /* Foundation.framework */; };
 		E2A10D651624E2C000BC86A8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E2A10D631624E2C000BC86A8 /* InfoPlist.strings */; };
 		E2A10D681624E2C000BC86A8 /* HPCalcTests.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A10D671624E2C000BC86A8 /* HPCalcTests.m */; };
+		E2A10D731624ECD200BC86A8 /* HPCalcBrain.m in Sources */ = {isa = PBXBuildFile; fileRef = E2A10D721624ECD200BC86A8 /* HPCalcBrain.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +61,8 @@
 		E2A10D641624E2C000BC86A8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		E2A10D661624E2C000BC86A8 /* HPCalcTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HPCalcTests.h; sourceTree = "<group>"; };
 		E2A10D671624E2C000BC86A8 /* HPCalcTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HPCalcTests.m; sourceTree = "<group>"; };
+		E2A10D711624ECD200BC86A8 /* HPCalcBrain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HPCalcBrain.h; sourceTree = SOURCE_ROOT; };
+		E2A10D721624ECD200BC86A8 /* HPCalcBrain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HPCalcBrain.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +122,8 @@
 		E2A10D391624E2C000BC86A8 /* HPCalc */ = {
 			isa = PBXGroup;
 			children = (
+				E2A10D711624ECD200BC86A8 /* HPCalcBrain.h */,
+				E2A10D721624ECD200BC86A8 /* HPCalcBrain.m */,
 				E2A10D421624E2C000BC86A8 /* HPCalcAppDelegate.h */,
 				E2A10D431624E2C000BC86A8 /* HPCalcAppDelegate.m */,
 				E2A10D4B1624E2C000BC86A8 /* MainStoryboard_iPhone.storyboard */,
@@ -278,6 +283,7 @@
 				E2A10D401624E2C000BC86A8 /* main.m in Sources */,
 				E2A10D441624E2C000BC86A8 /* HPCalcAppDelegate.m in Sources */,
 				E2A10D531624E2C000BC86A8 /* HPCalcViewController.m in Sources */,
+				E2A10D731624ECD200BC86A8 /* HPCalcBrain.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
