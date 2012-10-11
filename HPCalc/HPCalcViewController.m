@@ -9,15 +9,15 @@
 #import "HPCalcViewController.h"
 #import "HPCalcBrain.h"
 
+// ============================================================
 @interface HPCalcViewController ()
 
 @property (nonatomic) BOOL userEntryInProgress;
 @property (nonatomic, strong) HPCalcBrain *brain;
+
 @end
 
-
-
-
+// ============================================================
 @implementation HPCalcViewController
 
 @synthesize display = _display;
