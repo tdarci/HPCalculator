@@ -15,8 +15,11 @@
 - (void) clear;
 
 @property (readonly) id program;
+@property NSDictionary *variableValues;
 
-+ (double) runProgram: (id) program;
++ (double) runProgram: (id) program
+  usingVariableValues:(NSDictionary *)vals;
+
 + (NSString *) descriptionOfProgram: (id) program;
 
 @end
