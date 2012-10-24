@@ -11,6 +11,7 @@
 @interface HPCalcBrain : NSObject
 
 - (void) pushOperand: (double) operand;
+- (void) popStack;
 - (void) pushVariable: (NSString *) variable;
 - (double) performOperation: (NSString *) operation;
 - (NSString *) descriptionOfVariables;

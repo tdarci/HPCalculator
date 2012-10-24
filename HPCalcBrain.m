@@ -38,6 +38,12 @@
   [self showStack];
 }
 
+- (void) popStack {
+  if ([self.programStack count] > 0) {
+    [self.programStack removeLastObject];
+  }
+}
+
 - (void) pushVariable: (NSString *) variable {
   [self.programStack addObject:variable];
   [self showStack];

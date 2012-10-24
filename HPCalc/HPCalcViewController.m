@@ -32,12 +32,12 @@
   
   if (! dictArray) {
     dictArray = [NSMutableArray new];
-    [dictArray addObject:@{@"foo": @1.0, @"bar": @2.0, @"bat": @3.0}];
-    [dictArray addObject:@{@"foo": @0.0, @"bar": @0.0, @"bat": @0.0}];
-    [dictArray addObject:@{@"foo": @1.0, @"bat": @3.0}];
-    [dictArray addObject:@{@"foo": @-1.0, @"bar": @2.0, @"bat": @3.0}];
-    [dictArray addObject:@{@"foo": @1000.0, @"bar": @2000.0, @"bat": @3000.0}];
-    [dictArray addObject:@{@"foo": @1.2345, @"bar": @6.7890, @"bat": @100.0}];
+    [dictArray addObject:@{@"foo": @1.0, @"bar": @2.0, @"bop": @3.0}];
+    [dictArray addObject:@{@"foo": @0.0, @"bar": @0.0, @"bop": @0.0}];
+    [dictArray addObject:@{@"foo": @1.0, @"bop": @3.0}];
+    [dictArray addObject:@{@"foo": @-1.0, @"bar": @2.0, @"bop": @3.0}];
+    [dictArray addObject:@{@"foo": @1000.0, @"bar": @2000.0, @"bop": @3000.0}];
+    [dictArray addObject:@{@"foo": @1.2345, @"bar": @6.7890, @"bop": @100.0}];
   }
   
   if ((self.testValsIdx >= [dictArray count]) || (self.testValsIdx <= 0)) {
@@ -89,6 +89,34 @@
   
 }
 
+- (void) redoResult {
+  double result = [self.brain run];
+  [self displayResult:result];
+  [self updateDescription];
+}
+
+- (IBAction)undoButtonPressed {
+  
+  if (self.userEntryInProgress) {
+    
+    UILabel *myDisplay = self.display;
+    NSString *curText = myDisplay.text;
+    
+    if ([curText length] <= 1) {
+      self.userEntryInProgress = NO;
+      [self redoResult];
+    } else {
+      curText = [curText substringToIndex:(curText.length - 2)];
+      myDisplay.text = curText;
+    }
+    
+  } else {
+    [self.brain popStack];
+    [self redoResult];
+  }
+  
+}
+
 - (void) updateDescription {
   self.historyTicker.text = [HPCalcBrain descriptionOfProgram:self.brain.program];
   self.variableDisplay.text = [self.brain descriptionOfVariables];
@@ -129,8 +157,7 @@
 - (IBAction)testValsPressed:(UIButton *)sender {
   self.testValsIdx++;
   self.brain.variableValues = [self testVals];
-  double result = [self.brain run];
-  [self displayResult:result];
+  [self redoResult];
 }
 
 - (IBAction)enterPressed {
