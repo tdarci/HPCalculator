@@ -38,6 +38,11 @@
   [self showStack];
 }
 
+- (void) pushVariable: (NSString *) variable {
+  [self.programStack addObject:variable];
+  [self showStack];
+}
+
 - (double) performOperation: (NSString *) operation {
   
   [self.programStack addObject:operation];

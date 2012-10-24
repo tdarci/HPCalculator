@@ -91,6 +91,17 @@
   
 }
 
+- (IBAction)variablePressed:(UIButton *)sender {
+  // if we are in the middle of entering a number, then send it along
+  if (self.userEntryInProgress) [self enterPressed];
+  // display our variable
+  NSString *variable = sender.currentTitle;
+  UILabel *myDisplay = self.display;
+  myDisplay.text = variable;
+  // enter our variable
+  [self enterPressed];
+}
+
 - (IBAction)clearPressed {
   
   [self.brain clear];
@@ -100,11 +111,18 @@
   
   
 }
+- (IBAction)testValsPressed:(UIButton *)sender {
+}
 
 - (IBAction)enterPressed {
   self.userEntryInProgress = NO;
   double newOperand = [self.display.text doubleValue];
-  [self.brain pushOperand:newOperand];
+  if ((newOperand == 0.0) && !([self.display.text hasPrefix:@"0"])) {
+    NSString *variableName = self.display.text;
+    [self.brain pushVariable:variableName];
+  } else {
+    [self.brain pushOperand:newOperand];
+  }
   [self updateDescription];
   
 //  [self appendHistorySeparator];
