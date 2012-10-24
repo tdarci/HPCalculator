@@ -13,6 +13,8 @@
 - (void) pushOperand: (double) operand;
 - (void) pushVariable: (NSString *) variable;
 - (double) performOperation: (NSString *) operation;
+- (NSString *) descriptionOfVariables;
+- (double) run;
 - (void) clear;
 
 @property (readonly) id program;
@@ -23,5 +25,6 @@
 
 + (NSString *) descriptionOfProgram: (id) program;
 + (NSSet *) variablesUsedInProgram: (id) program;
++ (NSString *) descriptionOfVariables: (id) program withVariables: (NSDictionary *) variables;
 
 @end

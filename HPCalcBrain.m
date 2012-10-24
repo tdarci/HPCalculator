@@ -44,11 +44,13 @@
 }
 
 - (double) performOperation: (NSString *) operation {
-  
   [self.programStack addObject:operation];
   [self showStack];
+  return [self run];
+}
+
+- (double) run {
   return [HPCalcBrain runProgram:self.program usingVariableValues:[self variableValues]];
-  
 }
 
 - (void) showStack {
@@ -60,7 +62,10 @@
     counter++;
     NSLog(@"%d. %@", counter, obj);
   }
-  //    NSLog(@"================");
+}
+
+- (NSString *) descriptionOfVariables {
+  return [HPCalcBrain descriptionOfVariables:self.program withVariables:self.variableValues];
 }
 
 - (void) clear
@@ -273,6 +278,22 @@ usingVariableValues: (NSDictionary *) vals{
   }
   
   return [self popStackForVariables:stack];
+}
+
++ (NSString *) descriptionOfVariables: (id) program withVariables: (NSDictionary *) variables {
+  NSString * foo = @"";
+  NSSet *vars = [self variablesUsedInProgram:program];
+  for (id obj in vars) {
+    NSString *varName = obj;
+    NSString *desc = [varName stringByAppendingString:@" = "];
+    double variableVal = [[variables objectForKey:varName] doubleValue];
+    desc = [desc stringByAppendingString:[NSString stringWithFormat:@"%f", variableVal]];
+    if (foo != @"") {
+      foo = [foo stringByAppendingString:@", "];
+    }
+    foo = [foo stringByAppendingString:desc];
+  }
+  return foo;
 }
 
 + (double) runProgram:(id)program

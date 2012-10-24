@@ -14,6 +14,7 @@
 
 @property (nonatomic) BOOL userEntryInProgress;
 @property (nonatomic, strong) HPCalcBrain *brain;
+@property (nonatomic) NSUInteger testValsIdx;
 
 @end
 
@@ -24,9 +25,34 @@
 @synthesize historyTicker = _historyTicker;
 @synthesize userEntryInProgress = _userEntryInProgress;
 @synthesize brain = _brain;
+@synthesize testValsIdx = _testValsIdx;
+
+- (NSDictionary *) testVals {
+  static NSMutableArray *dictArray;
+  
+  if (! dictArray) {
+    dictArray = [NSMutableArray new];
+    [dictArray addObject:@{@"foo": @1.0, @"bar": @2.0, @"bat": @3.0}];
+    [dictArray addObject:@{@"foo": @0.0, @"bar": @0.0, @"bat": @0.0}];
+    [dictArray addObject:@{@"foo": @1.0, @"bat": @3.0}];
+    [dictArray addObject:@{@"foo": @-1.0, @"bar": @2.0, @"bat": @3.0}];
+    [dictArray addObject:@{@"foo": @1000.0, @"bar": @2000.0, @"bat": @3000.0}];
+    [dictArray addObject:@{@"foo": @1.2345, @"bar": @6.7890, @"bat": @100.0}];
+  }
+  
+  if ((self.testValsIdx >= [dictArray count]) || (self.testValsIdx <= 0)) {
+    self.testValsIdx = 0;
+  }
+  
+  NSDictionary *curDict = [dictArray objectAtIndex:self.testValsIdx];
+  return curDict;
+}
 
 - (HPCalcBrain *)brain {
-  if (! _brain) _brain = [[HPCalcBrain alloc] init];
+  if (! _brain) {
+    _brain = [[HPCalcBrain alloc] init];
+    _brain.variableValues = [self testVals];
+  }
   return _brain;
 }
 
@@ -63,16 +89,9 @@
   
 }
 
-//- (void)appendHistorySeparator {
-//  if ([self.historyTicker.text length] > 0)
-//  {
-//    self.historyTicker.text = [self.historyTicker.text stringByAppendingString:@" || "];
-//  }
-//}
-//
-
 - (void) updateDescription {
   self.historyTicker.text = [HPCalcBrain descriptionOfProgram:self.brain.program];
+  self.variableDisplay.text = [self.brain descriptionOfVariables];
 }
 
 - (IBAction)operationPressed:(UIButton *)sender {
@@ -80,15 +99,14 @@
   if (self.userEntryInProgress) [self enterPressed];
   
   double result = [self.brain performOperation:sender.currentTitle];
+  [self displayResult:result];
+}
+
+- (void) displayResult: (double) result
+{
   NSString *resultString = [NSString stringWithFormat:@"%g", result];
   self.display.text = resultString;
-
   [self updateDescription];
-  
-//  [self appendHistorySeparator];
-//  NSString *newHistory = [NSString stringWithFormat:@"%@ = %@", sender.currentTitle, resultString];
-//  self.historyTicker.text = [self.historyTicker.text stringByAppendingString:newHistory];
-  
 }
 
 - (IBAction)variablePressed:(UIButton *)sender {
@@ -103,15 +121,16 @@
 }
 
 - (IBAction)clearPressed {
-  
   [self.brain clear];
   self.display.text = @"0";
-//  self.historyTicker.text = @"";
   [self updateDescription];
-  
-  
 }
+
 - (IBAction)testValsPressed:(UIButton *)sender {
+  self.testValsIdx++;
+  self.brain.variableValues = [self testVals];
+  double result = [self.brain run];
+  [self displayResult:result];
 }
 
 - (IBAction)enterPressed {
@@ -124,9 +143,6 @@
     [self.brain pushOperand:newOperand];
   }
   [self updateDescription];
-  
-//  [self appendHistorySeparator];
-//  self.historyTicker.text = [self.historyTicker.text stringByAppendingString:self.display.text];
 }
 
 - (void)viewDidLoad
