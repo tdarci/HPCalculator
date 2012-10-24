@@ -21,5 +21,6 @@
   usingVariableValues:(NSDictionary *)vals;
 
 + (NSString *) descriptionOfProgram: (id) program;
++ (NSSet *) variablesUsedInProgram: (id) program;
 
 @end
